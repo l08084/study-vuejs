@@ -12,9 +12,14 @@ var app = new Vue({
             { id: 3, name: 'いちご', price: 400 },
             { id: 4, name: 'おれんじ', price: 300 },
             { id: 5, name: 'めろん', price: 500 }
-        ]
+        ],
+        order: false
     },
     computed: {
+        // sortedを新しく追加
+        sorted: function() {
+            return _.orderBy(this.matched, 'price', this.order ? 'desc' : 'asc');
+        },
         // budget以下のリストを返す算出プロパティ
         matched: function() {
             return this.list.filter(function(el) {
@@ -23,7 +28,7 @@ var app = new Vue({
         },
         // matchedで返ったデータをlimit件返す算出プロパティ
         limited: function() {
-            return this.matched.slice(0, this.limit);
+            return this.sorted.slice(0, this.limit);
         }
     }
 });
